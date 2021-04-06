@@ -1,12 +1,11 @@
 
-interface Addable  {
+interface Addable<T>  {
 
-public int ADD(int secondTerm);
+public T ADD(T secondTerm);
 
 };
 
-class Matrix implements Addable {
-
+class Matrix implements Addable<Matrix> {
 
 public Integer [][]Numbers; // 2D array
 public int M,N; // M rows and N columns
@@ -19,10 +18,20 @@ public Matrix(int m,int n)
 
 }
 
-public int ADD(int secondTerm) // not specified well enough
+public Matrix ADD(Matrix secondMat) // not specified well enough
 {
-    int sum =0;
-    sum = this.Numbers[0][0]+ secondTerm;
+    Matrix sum = new Matrix(this.M,this.N);
+    
+    if(secondMat.N == this.N && secondMat.M == this.M)
+    {
+        for(int i = 0;i<this.M;i++)
+        {
+            for(int j = 0;j<this.N;j++)
+            {
+                sum.Numbers[i][j] = secondMat.Numbers[i][j] + this.Numbers[i][j];
+            }
+        }
+    }
     return sum;
 }
 public Boolean setNumbers(Integer [] arr)
@@ -166,18 +175,29 @@ class MainApp{
      int n = 2;
  
      Integer []arr = {1,2,3,4,5,6};
+     Integer []arradd = {6,5,4,3,2,1};
      //identity tests
      Integer []idtest1 = {1,2,3,4}; 
      Integer []idtest2 = {1,0,0,1};
      Integer []idtest3 = {1,2,3,4,5,6}; 
      
+
+     Matrix matadd = new Matrix(2, 3);
  
-     Matrix mat = new Matrix(m, n);
+     Matrix mat = new Matrix(2, 3);
      IdentityMatrix idmat = new IdentityMatrix(m, n);
      IdentityMatrix idmat0 = new IdentityMatrix(2, 3);
+
      System.out.println("setting matrix : " + mat.setNumbers(arr));
+     matadd.setNumbers(arradd);
  
      mat.print();
+
+     System.out.println("testing transpose: ");
+     mat.transpose();
+     mat.print();
+
+     mat.transpose();
 
      System.out.println("---------------------");
 
@@ -196,10 +216,19 @@ class MainApp{
      Boolean b3= idmat0.setNumbers(idtest3);
      idmat0.print();
      System.out.println("idtest3 " +b3);
- 
-     mat.transpose();
+
+     System.out.println("---------------------");
+
+     System.out.println("Testing the ADDABLE function :");
+     System.out.println("mat1 = ");
      mat.print();
-    
+
+     System.out.println("mat2 = ");
+     matadd.print();
+
+     System.out.println("mat1 + mat2 = ");
+     mat.ADD(matadd).print();
+
  
  }
 };
