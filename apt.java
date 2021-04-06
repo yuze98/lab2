@@ -1,11 +1,11 @@
 
-interface Addable<T>  {
+interface Addable  {
 
-public T ADD(T secondTerm);
+public Object ADD(Object secondTerm);
 
 };
 
-class Matrix implements Addable<Matrix> {
+class Matrix implements Addable {
 
 public Integer [][]Numbers; // 2D array
 public int M,N; // M rows and N columns
@@ -18,17 +18,17 @@ public Matrix(int m,int n)
 
 }
 
-public Matrix ADD(Matrix secondMat) // not specified well enough
+public Object ADD(Object secondMat) // not specified well enough
 {
     Matrix sum = new Matrix(this.M,this.N);
     
-    if(secondMat.N == this.N && secondMat.M == this.M)
+    if(((Matrix)secondMat).N == this.N && ((Matrix)secondMat).M == this.M)
     {
         for(int i = 0;i<this.M;i++)
         {
             for(int j = 0;j<this.N;j++)
             {
-                sum.Numbers[i][j] = secondMat.Numbers[i][j] + this.Numbers[i][j];
+                sum.Numbers[i][j] = ((Matrix)secondMat).Numbers[i][j] + this.Numbers[i][j];
             }
         }
     }
@@ -108,20 +108,9 @@ public IdentityMatrix(int m,int n)
 
 public Boolean setNumbers(Integer [] arr) //sets the numbers and checks if it is identity or not
 {
-
-    int k =0;
-
-   for(int i=0;i<this.N;i++) // columns
-    {
-        for(int j =0;j<this.M;j++) //rows
-        {
-            if(k<arr.length)
-                this.Numbers[j][i] = arr[k];
-                k++;
-                
-        }
-    }
-
+    Matrix mat = new Matrix(this.M, this.N);
+    mat.setNumbers(arr);
+    
     //checks for identity
 
     if(this.N != this.M) //squared
@@ -133,11 +122,13 @@ public Boolean setNumbers(Integer [] arr) //sets the numbers and checks if it is
     {
         for(int j =0;j<this.M;j++) //rows
         {
-            if((this.Numbers[i][j]!=1 && i==j) || (this.Numbers[i][j] != 0 && i!=j))
+            if((mat.Numbers[i][j]!=1 && i==j) || (mat.Numbers[i][j] != 0 && i!=j))
                 return false;
 
         }
     }
+
+    super.setNumbers(arr);
 
         return true;
 }
@@ -227,7 +218,7 @@ class MainApp{
      matadd.print();
 
      System.out.println("mat1 + mat2 ");
-     mat.ADD(matadd).print();
+     ((Matrix)((Matrix)mat).ADD(matadd)).print();
 
  
  }
