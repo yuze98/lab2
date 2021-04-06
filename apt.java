@@ -220,13 +220,13 @@ class MainApp{
      System.out.println("---------------------");
 
      System.out.println("Testing the ADDABLE function :");
-     System.out.println("mat1 = ");
+     System.out.println("mat1 ");
      mat.print();
 
-     System.out.println("mat2 = ");
+     System.out.println("mat2 ");
      matadd.print();
 
-     System.out.println("mat1 + mat2 = ");
+     System.out.println("mat1 + mat2 ");
      mat.ADD(matadd).print();
 
  
